@@ -10,7 +10,7 @@ Module SAPConnection
     Private _session As Object
     Private xlApp As Excel.Application
     Private createdSession As Boolean
-    Const MAX_SESSIONS = 6
+    Const MAX_SESSIONS As Integer = 6
 
     ' session Property, to ensure encapsulation of _session. 
     ' Return GuiSession _session as Object. 
@@ -28,7 +28,7 @@ Module SAPConnection
     ' This function should be used when script is intended to run in the session first found by the program.
     ' Param transaction - the transaction to execute updates in.
     ' Return void.
-    Public Sub initWithTransaction(ByVal transaction As String)
+    Public Sub InitWithTransaction(ByVal transaction As String)
         createdSession = False
 
         ' Reset any open connections before starting.
@@ -46,7 +46,7 @@ Module SAPConnection
             _session = con.Children(0)
         End If
         If Not IsNothing(WScript) Then
-            WScript.ConnectObject(session, "on")
+            WScript.ConnectObject(_session, "on")
             WScript.ConnectObject(xlApp, "on")
         End If
 
@@ -61,7 +61,7 @@ Module SAPConnection
     ' This initialized should be used in most cases not to overwrite the users other transactions.
     ' Param transaction - the transaction to execute updates in.
     ' Return void.
-    Public Sub initWithNewSessionAndTransaction(ByVal transaction As String)
+    Public Sub InitWithNewSessionAndTransaction(ByVal transaction As String)
         createdSession = False
 
         ' Reset any open connections before starting.
@@ -79,7 +79,7 @@ Module SAPConnection
             _session = con.Children(0)
         End If
         If Not IsNothing(WScript) Then
-            WScript.ConnectObject(session, "on")
+            WScript.ConnectObject(_session, "on")
             WScript.ConnectObject(xlApp, "on")
         End If
 
@@ -134,7 +134,7 @@ Module SAPConnection
 
     ' Function to close the connection with SAP.
     ' Return void.
-    Public Sub closeConnection()
+    Public Sub CloseConnection()
         If createdSession = True Then
             _session.FindById("wnd[0]").Close()
         End If
@@ -145,6 +145,8 @@ Module SAPConnection
         sapGuiAuto = Nothing
     End Sub
 
+    ' Function to reset the connection with SAP, simpler form of closeConnection()
+    ' Return void. 
     Private Sub resetSession()
         _session = Nothing
         sapGuiAuto = Nothing

@@ -14,9 +14,11 @@ Public Class Ribbon1
     ' Set the xlApp variable in this class. 
     ' Return void. 
     Private Sub Ribbon1_Load(ByVal sender As System.Object, ByVal e As RibbonUIEventArgs) Handles MyBase.Load
+
         xlApp = Globals.ThisAddIn.Application
         Debug.Print("Ribbon loaded successfully.")
-        ' Me.grpVersion.Label = "Version " & My.Application.Info.Version.ToString()
+        Me.grpVersion.Label = "Version " & My.Application.Info.Version.ToString()
+
     End Sub
 
     ' Event function for when the user clicks one of the 30 buttons in the Script menu. 
@@ -79,7 +81,6 @@ Public Class Ribbon1
     ' Event function for when the user clicks the Run button. 
     ' Return void. 
     Private Sub btnRun_Click(ByVal sender As System.Object, ByVal e As Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs) Handles btnRun.Click
-        Debug.Print("Clicked Run script button.")
 
         ' Params from SQL database.
         ' Execute SAPMainScript, throwing in the transaction (ie CJ20N) and scriptid (ie EnterNetwork)
@@ -87,44 +88,58 @@ Public Class Ribbon1
 
     End Sub
 
-    ' Event function for when the user clicks the Debug button. 
-    ' Todo: Remove this? As debugging will not be available. 
+    ' Event function for when the user clicks the View statistics button. 
+    ' Get the statistics from the database as array, and insert them into a new workbook. 
     ' Return void. 
-    Private Sub btnDebug_Click(ByVal sender As System.Object, ByVal e As Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs) Handles btnDebug.Click
-        Debug.Print("Clicked debug scripts button")
+    Private Sub btnViewStatistics_Click(ByVal sender As System.Object, ByVal e As Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs) Handles btnViewStatistics.Click
+
+        Dim s As New CStatistics()
+        Dim arr(,) As String = s.getStatistics()
+        Dim count As Integer = arr.GetLength(0)
+
+        xlApp.Workbooks.Add()
+        xlApp.Range("A1:G" & count).Value = arr
+        s = Nothing
+
     End Sub
 
     ' Event function for when the user clicks the Convert to String button. 
     ' Utilize CTools class to get the data. 
     ' Return void. 
     Private Sub btnToString_Click(ByVal sender As System.Object, ByVal e As Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs) Handles btnToString.Click
+
         Dim t As CTools
         t = New CTools
         For Each c In xlApp.Selection
             c.value2 = t.convertToString(c.value2)
         Next
-        ' Dispose tools. 
         t = Nothing
+
     End Sub
 
     ' Event function for when the user clicks the Settings button. 
     ' Load the SettingsDialog form. 
     ' Return void. 
     Private Sub btnSettings_Click(sender As System.Object, e As Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs) Handles btnSettings.Click
+
         Dim sd As New SettingsDialog()
         sd.ShowDialog()
         sd = Nothing
+
     End Sub
 
     ' Event function for when the user clicks the Get current date button. 
     ' Utilize the CTools class to get the data. 
     ' Return void. 
     Private Sub btnGetDate_Click(sender As System.Object, e As Microsoft.Office.Tools.Ribbon.RibbonControlEventArgs) Handles btnGetDate.Click
+
         Dim dateFormat As String = My.Settings.DateFormat
         Dim t As New CTools
         For Each c In xlApp.Selection
             c.value2 = t.getDate(dateFormat)
         Next
+        t = Nothing
+
     End Sub
 
 End Class

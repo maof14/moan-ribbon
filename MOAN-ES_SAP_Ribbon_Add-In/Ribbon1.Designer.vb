@@ -75,7 +75,7 @@ Partial Class Ribbon1
         Me.tabMoan = Me.Factory.CreateRibbonTab
         Me.grpSAPAutomation = Me.Factory.CreateRibbonGroup
         Me.grpTools = Me.Factory.CreateRibbonGroup
-        Me.grpCustomSAPScripts = Me.Factory.CreateRibbonGroup
+        Me.grpStatistics = Me.Factory.CreateRibbonGroup
         Me.grpVersion = Me.Factory.CreateRibbonGroup
         Me.Menu1 = Me.Factory.CreateRibbonMenu
         Me.Button1 = Me.Factory.CreateRibbonButton
@@ -111,13 +111,13 @@ Partial Class Ribbon1
         Me.btnRun = Me.Factory.CreateRibbonButton
         Me.btnToString = Me.Factory.CreateRibbonButton
         Me.btnGetDate = Me.Factory.CreateRibbonButton
-        Me.btnDebug = Me.Factory.CreateRibbonButton
+        Me.btnViewStatistics = Me.Factory.CreateRibbonButton
         Me.btnSettings = Me.Factory.CreateRibbonButton
         Me.btnCustom = Me.Factory.CreateRibbonButton
         Me.tabMoan.SuspendLayout()
         Me.grpSAPAutomation.SuspendLayout()
         Me.grpTools.SuspendLayout()
-        Me.grpCustomSAPScripts.SuspendLayout()
+        Me.grpStatistics.SuspendLayout()
         Me.grpVersion.SuspendLayout()
         '
         'tabMoan
@@ -125,7 +125,7 @@ Partial Class Ribbon1
         Me.tabMoan.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office
         Me.tabMoan.Groups.Add(Me.grpSAPAutomation)
         Me.tabMoan.Groups.Add(Me.grpTools)
-        Me.tabMoan.Groups.Add(Me.grpCustomSAPScripts)
+        Me.tabMoan.Groups.Add(Me.grpStatistics)
         Me.tabMoan.Groups.Add(Me.grpVersion)
         Me.tabMoan.Label = "MOAN ES"
         Me.tabMoan.Name = "tabMoan"
@@ -144,11 +144,11 @@ Partial Class Ribbon1
         Me.grpTools.Label = "Tools"
         Me.grpTools.Name = "grpTools"
         '
-        'grpCustomSAPScripts
+        'grpStatistics
         '
-        Me.grpCustomSAPScripts.Items.Add(Me.btnDebug)
-        Me.grpCustomSAPScripts.Label = "Debugging (for devs)"
-        Me.grpCustomSAPScripts.Name = "grpCustomSAPScripts"
+        Me.grpStatistics.Items.Add(Me.btnViewStatistics)
+        Me.grpStatistics.Label = "Statistics"
+        Me.grpStatistics.Name = "grpStatistics"
         '
         'grpVersion
         '
@@ -430,13 +430,13 @@ Partial Class Ribbon1
         Me.btnGetDate.ScreenTip = "Get todays date in the format specified in the settings."
         Me.btnGetDate.ShowImage = True
         '
-        'btnDebug
+        'btnViewStatistics
         '
-        Me.btnDebug.Label = "Debug scripts"
-        Me.btnDebug.Name = "btnDebug"
-        Me.btnDebug.OfficeImageId = "AdpOutputOperationsAddToOutput"
-        Me.btnDebug.ScreenTip = "Debug your scripts in VBA."
-        Me.btnDebug.ShowImage = True
+        Me.btnViewStatistics.Label = "View statistics"
+        Me.btnViewStatistics.Name = "btnViewStatistics"
+        Me.btnViewStatistics.OfficeImageId = "AdpOutputOperationsAddToOutput"
+        Me.btnViewStatistics.ScreenTip = "Lets you examine the statistics data in a new workbook."
+        Me.btnViewStatistics.ShowImage = True
         '
         'btnSettings
         '
@@ -465,8 +465,8 @@ Partial Class Ribbon1
         Me.grpSAPAutomation.PerformLayout()
         Me.grpTools.ResumeLayout(False)
         Me.grpTools.PerformLayout()
-        Me.grpCustomSAPScripts.ResumeLayout(False)
-        Me.grpCustomSAPScripts.PerformLayout()
+        Me.grpStatistics.ResumeLayout(False)
+        Me.grpStatistics.PerformLayout()
         Me.grpVersion.ResumeLayout(False)
         Me.grpVersion.PerformLayout()
 
@@ -476,8 +476,8 @@ Partial Class Ribbon1
     Friend WithEvents grpSAPAutomation As Microsoft.Office.Tools.Ribbon.RibbonGroup
     Friend WithEvents Menu1 As Microsoft.Office.Tools.Ribbon.RibbonMenu
     Friend WithEvents btnRun As Microsoft.Office.Tools.Ribbon.RibbonButton
-    Friend WithEvents grpCustomSAPScripts As Microsoft.Office.Tools.Ribbon.RibbonGroup
-    Friend WithEvents btnDebug As Microsoft.Office.Tools.Ribbon.RibbonButton
+    Friend WithEvents grpStatistics As Microsoft.Office.Tools.Ribbon.RibbonGroup
+    Friend WithEvents btnViewStatistics As Microsoft.Office.Tools.Ribbon.RibbonButton
     Friend WithEvents grpTools As Microsoft.Office.Tools.Ribbon.RibbonGroup
     Friend WithEvents grpVersion As Microsoft.Office.Tools.Ribbon.RibbonGroup
     Friend WithEvents btnToString As Microsoft.Office.Tools.Ribbon.RibbonButton
