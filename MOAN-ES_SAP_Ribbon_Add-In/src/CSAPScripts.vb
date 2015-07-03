@@ -2,17 +2,19 @@
 
 Imports System.Diagnostics
 
-Public Class CSAPScripts
+Public Class CSAPScripts : Implements IDisposable
     ' Class to contain all the SAP Scripts. The Ribbon currently have support to hold 30 different scripts. 
     ' The scripts here are called dynamically from the SAPMainScript function with the CallByName function. 
     ' Created by MOAN Enterprise 2015-06-25. Updated 2015-06-28. 
+
+    Private disposedValue As Boolean ' To detect redundant calls
 
     ' Debug function example. Alter the contents here to a script that you want to debug. The actual scripts need to have the session as a variable. That is not needed here.
     ' Return String SAP Statusbar message (empty in this case). 
     Public Function EnterNetworkScript(ByVal args(,) As Object) As String
 
         ' Dimensions. 
-        Dim var1, var2 As Object
+        Dim var1, var2 As String
 
         ' Declare the variables. 
         var1 = args(1, 1)
@@ -79,8 +81,137 @@ Public Class CSAPScripts
         ' Save the invoice. 
         session.findbyid("wnd[0]/tbar[0]/btn[11]").press()
 
+        ' Return string - the statusbar message. 
         Return session.findById("wnd[0]/sbar").Text
 
     End Function
+
+    Public Function UpdateSalesOrderSystemStatusScript(ByVal args(,) As Object) As String
+
+        Dim var1, var2 As String
+
+        var1 = args(1, 1)
+        var2 = args(1, 2)
+
+        ' Enter the Sales Order. 
+        session.findById("wnd[0]/usr/ctxtVBAK-VBELN").Text = var1
+        session.findById("wnd[0]").sendVKey(0)
+
+        ' Press enter on any window. 
+        If Not session.findById("wnd[1]", False) Is Nothing Then
+            Do
+                session.findById("wnd[1]").sendVKey(0)
+            Loop While Not session.findById("wnd[1]", False) Is Nothing
+        End If
+
+        ' If status bar displays this message, then: (should possibly be, if warning... then). To pick up every warning, and then return the warning. 
+        If session.findById("wnd[0]/sbar").Text = "Fin ext cust and/or Selling BU missing, please check your entries!" Then
+            session.findById("wnd[0]").sendVKey(0)
+        End If
+
+        ' Enter the first sales order item. 
+        session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_OVERVIEW/tabpT\02/ssubSUBSCREEN_BODY:SAPMV45A:4401/subSUBSCREEN_TC:SAPMV45A:4900/tblSAPMV45ATCTRL_U_ERF_AUFTRAG/txtVBAP-POSNR[0,0]").SetFocus()
+        session.findById("wnd[0]").sendVKey(2)
+
+        ' Check which tab to enter.
+        If session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\11").Text = "Status" Then
+            session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\11").Select()
+        Else
+            session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\12").Select()
+        End If
+
+        ' Set up item loop. 
+        Do
+            If session.findById("wnd[0]/usr/subSUBSCREEN_HEADER:SAPMV45A:4013/ctxtVBAP-PSTYV").Text = "ZVCO" Or session.findById("wnd[0]/usr/subSUBSCREEN_HEADER:SAPMV45A:4013/ctxtVBAP-PSTYV").Text = "ZHSS" Then GoTo ContinueNextItem
+
+            Dim currentStatuses As String
+            currentStatuses = session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\11/ssubSUBSCREEN_BODY:SAPMV45A:4456/txtRV45A-STTXT").Text
+
+            ' If some status is already or does not comply - go on. 
+            If var2 = "Set TECO" Then
+                If InStr(currentStatuses, "TECO") > 0 Then GoTo ContinueNextItem
+            ElseIf var2 = "Remove TECO" Then ' Om man ska ta bort TECO eller CLSD ..
+                If InStr(currentStatuses, "REL") > 0 Then
+                    GoTo ContinueNextItem
+                ElseIf InStr(currentStatuses, "CLSD") > 0 Then
+                    ' ActiveCell.Offset(0, 3).value = "Found CLSD item"
+                    GoTo ContinueNextItem
+                End If
+            ElseIf var2 = "Remove CLSD" Then
+                If InStr(currentStatuses, "TECO") > 0 Or InStr(currentStatuses, "REL") > 0 Then GoTo ContinueNextItem
+            ElseIf var2 = "Set CLSD" Then
+                If InStr(currentStatuses, "CLSD") > 0 Then GoTo ContinueNextItem
+            End If
+
+            If InStr(currentStatuses, "NoMP") > 0 Then GoTo ContinueNextItem
+
+            ' Check if the button to alter status is available. 
+            If (session.findById("wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\12/ssubSUBSCREEN_BODY:SAPMV45A:4456/btnBT_STAE")) Is Nothing Then GoTo ContinueNextItem
+            If var2 = "Set TECO" Then
+                ' wnd[0]/usr/tabsTAXI_TABSTRIP_ITEM/tabpT\12/ssubSUBSCREEN_BODY:SAPMV45A:4456/btnBT_STAE, om man inte vill använda findByName... Lite farligt. 
+                session.ActiveWindow.FindByName("BT_STAE", "GuiButton").press()
+                session.findById("wnd[1]/usr/btnFCODE_BTAB").press() ' original SÄTT teco
+            ElseIf var2 = "Remove TECO" Then
+                session.ActiveWindow.FindByName("BT_STAE", "GuiButton").press()
+                session.ActiveWindow.FindByName("FCODE_BUTA", "GuiButton").press() ' Ta BORT TECO
+            ElseIf var2 = "Remove CLSD" Then
+                session.ActiveWindow.FindByName("BT_STAE", "GuiButton").press()
+                session.ActiveWindow.FindByName("FCODE_BUAB", "GuiButton").press() ' Ta BORT CLSD
+            ElseIf var2 = "Set CLSD" Then
+                session.ActiveWindow.FindByName("BT_STAE", "GuiButton").press()
+                session.ActiveWindow.FindByName("FCODE_STAB", "GuiButton").press() ' Sätt CLSD
+            ElseIf var2 = "Set FNBL" Then
+                session.ActiveWindow.FindByName("BT_STAE", "GuiButton").press()
+                session.ActiveWindow.FindByName("FCODE_STEF", "GuiButton").press() ' Sätt CLSD
+            End If
+
+            ' Label: Continue to the next sales order item. 
+ContinueNextItem:
+            session.findById("wnd[0]/tbar[1]/btn[19]").press()
+
+        Loop While session.findById("wnd[0]/sbar").Text <> "There are no more items to be displayed"
+
+        ' Try to save. 
+        session.findById("wnd[0]/tbar[0]/btn[11]").press()
+
+        ' Lots of various error handling here previously. Should instead return the error message and quit processing the document. 
+        If Not session.findById("wnd[1]", False) Is Nothing Then
+            If session.findById("wnd[1]").Text = "Information" Then
+                session.findById("wnd[1]").sendVKey(0)
+            End If
+        End If
+
+        Return session.findById("wnd[0]/sbar").Text
+
+    End Function
+
+#Region "IDisposable Support"
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                ' Dispose managed state (managed objects).
+            End If
+
+        End If
+        Me.disposedValue = True
+    End Sub
+
+    ' TODO: override Finalize() only if Dispose(ByVal disposing As Boolean) above has code to free unmanaged resources.
+    Protected Overrides Sub Finalize()
+        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
+        Dispose(False)
+        MyBase.Finalize()
+    End Sub
+
+    ' This code added by Visual Basic to correctly implement the disposable pattern.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+
+#End Region
 
 End Class

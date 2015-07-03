@@ -60,6 +60,7 @@ Public Class Ribbon1
 
         scriptData = New Dictionary(Of String, String)
         Dim i As Integer = 0
+
         For Each r In res.Rows
             scriptData.Add("id", r("id"))
             scriptData.Add("name", r("name"))
@@ -70,7 +71,13 @@ Public Class Ribbon1
             scriptData.Add("transaction", r("transaction"))
             scriptData.Add("category", r("category"))
             scriptData.Add("headers", r("headers"))
+            If IsDBNull(r("validation")) Then
+                scriptData.Add("validation", "")
+            Else
+                scriptData.Add("validation", r("validation"))
+            End If
         Next
+
         Dim tg As CTemplateGenerator = New CTemplateGenerator()
         tg.InitiateTemplate(scriptData)
         db = Nothing

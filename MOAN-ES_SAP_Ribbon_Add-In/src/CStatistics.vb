@@ -1,14 +1,20 @@
 ﻿Option Explicit On
 
 Imports System.Data
+Imports System.ComponentModel
 
 ' Class to encapsulate the handling of the writing and reading of the statistics database.
 ' Created by MOAN Enterprise 2015-06-27. 
 
-Public Class CStatistics
+Public Class CStatistics : Implements IDisposable
 
     Private db As CDatabase
+    Private disposedValue As Boolean ' To detect redundant calls
 
+    ''' <summary>
+    ''' Constructor for class CStatistics. Initializes the CDatabase member. 
+    ''' </summary>
+    ''' <remarks></remarks>
     Public Sub New()
         Me.db = New CDatabase()
     End Sub
@@ -21,7 +27,7 @@ Public Class CStatistics
     End Function
 
     ' Function to get the statistics data for display from the database. 
-    ' Todo: Add this data with a pivot table? 
+    ' Should there be a function to have this to display Pivot table too? How to reference the Pivot in creation, and choose layout?
     ' Return String array of the database statistics results. 
     Public Function getStatistics() As String(,)
         Dim res As DataTable = Me.db.getDataTable("SELECT * FROM statistics")
@@ -53,5 +59,35 @@ Public Class CStatistics
 
         Return arr
     End Function
+
+#Region "IDisposable Support"
+
+    ' IDisposable
+    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
+        If Not Me.disposedValue Then
+            If disposing Then
+                ' TODO: dispose managed state (managed objects).
+            End If
+
+            ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
+            ' TODO: set large fields to null.
+        End If
+        Me.disposedValue = True
+    End Sub
+
+    ' TODO: override Finalize() only if Dispose(ByVal disposing As Boolean) above has code to free unmanaged resources.
+    'Protected Overrides Sub Finalize()
+    '    ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
+    '    Dispose(False)
+    '    MyBase.Finalize()
+    'End Sub
+
+    ' This code added by Visual Basic to correctly implement the disposable pattern.
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
+        Dispose(True)
+        GC.SuppressFinalize(Me)
+    End Sub
+#End Region
 
 End Class
