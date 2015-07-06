@@ -9,7 +9,6 @@ Module SAPMain
     ' Created by Mattias Olsson XB (qolsmat) 2014-04-08. Updated by 2015-06-02. Trying with VB.Net 2015-06-22
 
     ' Members. 
-
     Private xlApp As Excel.Application
     Private _doWork As Boolean = True
     Private pf As ProcessForm
@@ -47,6 +46,7 @@ Module SAPMain
 
         ' Dimension some variables to the SAPMainScript subprocedure.
         Dim stats As CStatistics
+        Dim em As CErrorMail
         Dim counter As Integer = 0
         Dim errorCounter As Integer = 0
         Dim rng As Excel.Range
@@ -59,6 +59,8 @@ Module SAPMain
 
         ' Initialize dependency classes
         stats = New CStatistics()
+        em = New CErrorMail()
+        em.recipient = My.Settings.ErrorRecipients
 
         ' Select the first cell to update in the template.
         xlApp.Cells(6, 2).Select()
@@ -96,6 +98,7 @@ Module SAPMain
                 End If
             Catch ex As Exception
                 errorCounter = errorCounter + 1
+                em.addError(args(1, 1), scriptData("scriptid"), ex.Message, ex.Source)
                 MsgBox(ex.Message)
             End Try
 
@@ -103,8 +106,9 @@ Module SAPMain
             xlApp.ActiveCell.Offset(1, 0).Select()
             counter = counter + 1
 
-            ' Update the ProgressForm progressbar and time left label. 
-            pf.UpdateProgress(counter, counter + objectsToUpdate)
+            ' Update the ProgressForm progressbar and time left label with BeginInvoke. As the form is in another thread. 
+            pf.BeginInvoke(New System.Action(Sub() pf.updateProgress(counter, objectsToUpdate)))
+            pf.BeginInvoke(New System.Action(Sub() pf.worker.ReportProgress(CInt((counter / objectsToUpdate) * 100))))
         Loop
 
         ' Create dictionary with statistics details. 
@@ -117,12 +121,18 @@ Module SAPMain
         statisticsData("finished") = Now().ToLocalTime()
         statisticsData("finishedin") = pf.getResults()
 
+        ' Check if there are any errors, and that the user want error mails. If not, don't do anything more with CErrorMails class. 
+        If (errorCounter > 0 And My.Settings.ErrorMails = True) Then
+            em.sendMail()
+        End If
+
         ' Insert the statistics in the database. 
         stats.writeStatistics(statisticsData)
 
-        ' Done with stats and scriptclass, dispose the objects.
-        stats.Dispose()
-        ss.Dispose()
+        ' Done with stats and scriptclass, throw away the objects (removing the pointers). 
+        stats = Nothing
+        ss = Nothing
+        em = Nothing
 
         ' Close the window and connection to SAP.
         CloseConnection()

@@ -35,7 +35,7 @@
     <PublishUrl>C:\Users\Mattias\Dropbox\MOAN-ES\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.48</ApplicationVersion>
+    <ApplicationVersion>1.0.0.63</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -239,6 +239,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="src\CDatabase.vb" />
+    <Compile Include="src\CErrorMail.vb" />
     <Compile Include="src\CSAPScripts.vb" />
     <Compile Include="src\CStatistics.vb" />
     <Compile Include="src\CTemplateGenerator.vb" />

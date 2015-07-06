@@ -76,6 +76,30 @@ Partial Friend NotInheritable Class MySettings
             Me("DateFormat") = value
         End Set
     End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
+    Public Property ErrorMails() As Boolean
+        Get
+            Return CType(Me("ErrorMails"),Boolean)
+        End Get
+        Set
+            Me("ErrorMails") = value
+        End Set
+    End Property
+    
+    <Global.System.Configuration.UserScopedSettingAttribute(),  _
+     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+    Public Property ErrorRecipients() As String
+        Get
+            Return CType(Me("ErrorRecipients"),String)
+        End Get
+        Set
+            Me("ErrorRecipients") = value
+        End Set
+    End Property
 End Class
 
 Namespace My

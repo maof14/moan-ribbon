@@ -1,6 +1,19 @@
-﻿Public Class ProcessForm
+﻿Imports System.ComponentModel
+
+Public Class ProcessForm
 
     Private timer As CTimer
+    Private WithEvents _worker As BackgroundWorker
+
+    Public Property worker() As BackgroundWorker
+        Get
+            Return _worker
+        End Get
+        Set(ByVal value As BackgroundWorker)
+            _worker = value
+        End Set
+    End Property
+
 
     ' Event function for when the user presses the Cancel processing button. 
     ' Set the DoWork property to false, causing the MainScript to quit after next saved object. 
@@ -19,6 +32,8 @@
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
+        Me._worker = New BackgroundWorker()
+        Me._worker.WorkerReportsProgress = True
 
         timer = New CTimer()
         timer.start()
@@ -37,13 +52,12 @@
         ' http://stackoverflow.com/questions/18762673/why-the-cross-threading-exception-raises-only-when-debugging
         ' http://stackoverflow.com/questions/19596091/using-thread-to-open-form
         Me.lblTimeLeft.Text = "Estimated completion in " & Math.Floor(timer.getTimeLeftMinutes(totalItems - currentItem)) & " minutes and " & Math.Floor(timer.getTimeLeftSeconds(totalItems - currentItem)) & " seconds."
-        Me.prgProgress.Value = Math.Floor(currentItem / totalItems)
-        Me.prgProgress.Refresh()
+        ' Me._worker.ReportProgress(CInt(Math.Floor(currentItem / totalItems)))
     End Sub
 
     ' Function to get results to somewhere. Ie statusbar. 
     ' Todo: Implement this function. 
-    Public Function getResults()
+    Public Function getResults() As Integer
         Me.timer.stopTimer()
         Return Me.timer.getTotalTimeElapsedTimeInSeconds()
     End Function
@@ -54,5 +68,9 @@
     Protected Overrides Sub Finalize()
         Me.timer.Dispose()
         MyBase.Finalize()
+    End Sub
+
+    Private Sub worker_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles _worker.ProgressChanged
+        Me.prgProgress.Value = e.ProgressPercentage
     End Sub
 End Class

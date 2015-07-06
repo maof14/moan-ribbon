@@ -30,7 +30,12 @@ Partial Class SettingsDialog
         Me.btnBrowseDb = New System.Windows.Forms.Button()
         Me.lblDateFormat = New System.Windows.Forms.Label()
         Me.txtDateFormat = New System.Windows.Forms.TextBox()
+        Me.chbMailErrors = New System.Windows.Forms.CheckBox()
+        Me.grpMails = New System.Windows.Forms.GroupBox()
+        Me.txtRecipients = New System.Windows.Forms.TextBox()
+        Me.lblRecipients = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1.SuspendLayout()
+        Me.grpMails.SuspendLayout()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -110,6 +115,44 @@ Partial Class SettingsDialog
         Me.txtDateFormat.Size = New System.Drawing.Size(78, 20)
         Me.txtDateFormat.TabIndex = 8
         '
+        'chbMailErrors
+        '
+        Me.chbMailErrors.AutoSize = True
+        Me.chbMailErrors.Location = New System.Drawing.Point(6, 19)
+        Me.chbMailErrors.Name = "chbMailErrors"
+        Me.chbMailErrors.Size = New System.Drawing.Size(145, 17)
+        Me.chbMailErrors.TabIndex = 9
+        Me.chbMailErrors.Text = "Send e-mails about errors"
+        Me.chbMailErrors.UseVisualStyleBackColor = True
+        '
+        'grpMails
+        '
+        Me.grpMails.Controls.Add(Me.lblRecipients)
+        Me.grpMails.Controls.Add(Me.txtRecipients)
+        Me.grpMails.Controls.Add(Me.chbMailErrors)
+        Me.grpMails.Location = New System.Drawing.Point(15, 74)
+        Me.grpMails.Name = "grpMails"
+        Me.grpMails.Size = New System.Drawing.Size(200, 100)
+        Me.grpMails.TabIndex = 10
+        Me.grpMails.TabStop = False
+        Me.grpMails.Text = "Error mails"
+        '
+        'txtRecipients
+        '
+        Me.txtRecipients.Location = New System.Drawing.Point(103, 43)
+        Me.txtRecipients.Name = "txtRecipients"
+        Me.txtRecipients.Size = New System.Drawing.Size(78, 20)
+        Me.txtRecipients.TabIndex = 10
+        '
+        'lblRecipients
+        '
+        Me.lblRecipients.AutoSize = True
+        Me.lblRecipients.Location = New System.Drawing.Point(6, 46)
+        Me.lblRecipients.Name = "lblRecipients"
+        Me.lblRecipients.Size = New System.Drawing.Size(60, 13)
+        Me.lblRecipients.TabIndex = 11
+        Me.lblRecipients.Text = "Recipients:"
+        '
         'SettingsDialog
         '
         Me.AcceptButton = Me.OK_Button
@@ -117,6 +160,7 @@ Partial Class SettingsDialog
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
         Me.ClientSize = New System.Drawing.Size(435, 315)
+        Me.Controls.Add(Me.grpMails)
         Me.Controls.Add(Me.txtDateFormat)
         Me.Controls.Add(Me.lblDateFormat)
         Me.Controls.Add(Me.btnBrowseDb)
@@ -131,6 +175,8 @@ Partial Class SettingsDialog
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "Settings"
         Me.TableLayoutPanel1.ResumeLayout(False)
+        Me.grpMails.ResumeLayout(False)
+        Me.grpMails.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -143,5 +189,9 @@ Partial Class SettingsDialog
     Friend WithEvents btnBrowseDb As System.Windows.Forms.Button
     Friend WithEvents lblDateFormat As System.Windows.Forms.Label
     Friend WithEvents txtDateFormat As System.Windows.Forms.TextBox
+    Friend WithEvents chbMailErrors As System.Windows.Forms.CheckBox
+    Friend WithEvents grpMails As System.Windows.Forms.GroupBox
+    Friend WithEvents txtRecipients As System.Windows.Forms.TextBox
+    Friend WithEvents lblRecipients As System.Windows.Forms.Label
 
 End Class

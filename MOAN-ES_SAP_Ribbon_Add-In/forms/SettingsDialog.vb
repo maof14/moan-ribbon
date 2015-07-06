@@ -10,15 +10,24 @@ Public Class SettingsDialog
     Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OK_Button.Click
         Me.DialogResult = System.Windows.Forms.DialogResult.OK
         If (File.Exists(txtDbPath.Text)) Then
-
-            My.Settings.AppDbPath = txtDbPath.Text
-            My.Settings.DateFormat = txtDateFormat.Text
-
-            ' Perform the actual save of the settings.
-            My.Settings.Save()
+            My.Settings.AppDbPath = Me.txtDbPath.Text
         Else
             MsgBox("Oops. Looks like the file on the specified path does not exist.", vbInformation, "Error in path")
+            Exit Sub
         End If
+
+        My.Settings.DateFormat = txtDateFormat.Text
+
+        If (Me.chbMailErrors.Checked And Me.txtRecipients.Text = "") Then
+            MsgBox("Oops. Looks like you want error mails, but have not specified one or more recipients.", vbInformation, "Error in mail settings")
+            Exit Sub
+        Else
+            My.Settings.ErrorRecipients = txtRecipients.Text
+            My.Settings.ErrorMails = chbMailErrors.Checked
+        End If
+        
+        My.Settings.Save()
+
         Me.Close()
     End Sub
 
@@ -54,9 +63,18 @@ Public Class SettingsDialog
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-
         Me.txtDbPath.Text = My.Settings.AppDbPath
         Me.txtDateFormat.Text = My.Settings.DateFormat
+        Me.chbMailErrors.Checked = My.Settings.ErrorMails
+        Me.txtRecipients.Text = My.Settings.ErrorRecipients
 
+    End Sub
+
+    Private Sub chbMailErrors_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chbMailErrors.CheckedChanged, Me.Load
+        If (Me.chbMailErrors.Checked = True) Then
+            txtRecipients.Enabled = True
+        Else
+            txtRecipients.Enabled = False
+        End If
     End Sub
 End Class

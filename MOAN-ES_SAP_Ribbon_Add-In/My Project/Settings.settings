@@ -8,5 +8,11 @@
     <Setting Name="DateFormat" Type="System.String" Scope="User">
       <Value Profile="(Default)">YYYY-MM-DD</Value>
     </Setting>
+    <Setting Name="ErrorMails" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ErrorRecipients" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
