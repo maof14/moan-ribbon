@@ -2,12 +2,10 @@
 
 Imports System.Diagnostics
 
-Public Class CSAPScripts : Implements IDisposable
+Public Class CSAPScripts
     ' Class to contain all the SAP Scripts. The Ribbon currently have support to hold 30 different scripts. 
     ' The scripts here are called dynamically from the SAPMainScript function with the CallByName function. 
     ' Created by MOAN Enterprise 2015-06-25. Updated 2015-06-28. 
-
-    Private disposedValue As Boolean ' To detect redundant calls
 
     ' Debug function example. Alter the contents here to a script that you want to debug. The actual scripts need to have the session as a variable. That is not needed here.
     ' Return String SAP Statusbar message (empty in this case). 
@@ -184,34 +182,5 @@ ContinueNextItem:
         Return session.findById("wnd[0]/sbar").Text
 
     End Function
-
-#Region "IDisposable Support"
-
-    ' IDisposable
-    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
-        If Not Me.disposedValue Then
-            If disposing Then
-                ' Dispose managed state (managed objects).
-            End If
-
-        End If
-        Me.disposedValue = True
-    End Sub
-
-    ' TODO: override Finalize() only if Dispose(ByVal disposing As Boolean) above has code to free unmanaged resources.
-    Protected Overrides Sub Finalize()
-        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
-        Dispose(False)
-        MyBase.Finalize()
-    End Sub
-
-    ' This code added by Visual Basic to correctly implement the disposable pattern.
-    Public Sub Dispose() Implements IDisposable.Dispose
-        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
-        Dispose(True)
-        GC.SuppressFinalize(Me)
-    End Sub
-
-#End Region
 
 End Class

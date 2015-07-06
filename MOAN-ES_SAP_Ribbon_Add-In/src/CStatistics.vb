@@ -6,10 +6,9 @@ Imports System.ComponentModel
 ' Class to encapsulate the handling of the writing and reading of the statistics database.
 ' Created by MOAN Enterprise 2015-06-27. 
 
-Public Class CStatistics : Implements IDisposable
+Public Class CStatistics
 
     Private db As CDatabase
-    Private disposedValue As Boolean ' To detect redundant calls
 
     ''' <summary>
     ''' Constructor for class CStatistics. Initializes the CDatabase member. 
@@ -59,35 +58,5 @@ Public Class CStatistics : Implements IDisposable
 
         Return arr
     End Function
-
-#Region "IDisposable Support"
-
-    ' IDisposable
-    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
-        If Not Me.disposedValue Then
-            If disposing Then
-                ' TODO: dispose managed state (managed objects).
-            End If
-
-            ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
-            ' TODO: set large fields to null.
-        End If
-        Me.disposedValue = True
-    End Sub
-
-    ' TODO: override Finalize() only if Dispose(ByVal disposing As Boolean) above has code to free unmanaged resources.
-    'Protected Overrides Sub Finalize()
-    '    ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
-    '    Dispose(False)
-    '    MyBase.Finalize()
-    'End Sub
-
-    ' This code added by Visual Basic to correctly implement the disposable pattern.
-    Public Sub Dispose() Implements IDisposable.Dispose
-        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
-        Dispose(True)
-        GC.SuppressFinalize(Me)
-    End Sub
-#End Region
 
 End Class

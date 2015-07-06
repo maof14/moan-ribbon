@@ -62,14 +62,6 @@ Public Class ProcessForm
         Return Me.timer.getTotalTimeElapsedTimeInSeconds()
     End Function
 
-    ' Function to finalize the class. 
-    ' Disposes the timer. 
-    ' Return void. 
-    Protected Overrides Sub Finalize()
-        Me.timer.Dispose()
-        MyBase.Finalize()
-    End Sub
-
     Private Sub worker_ProgressChanged(sender As Object, e As System.ComponentModel.ProgressChangedEventArgs) Handles _worker.ProgressChanged
         Me.prgProgress.Value = e.ProgressPercentage
     End Sub

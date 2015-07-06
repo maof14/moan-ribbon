@@ -99,7 +99,8 @@ Module SAPMain
             Catch ex As Exception
                 errorCounter = errorCounter + 1
                 em.addError(args(1, 1), scriptData("scriptid"), ex.Message, ex.Source)
-                MsgBox(ex.Message)
+                resetTransaction(scriptData("transaction"))
+                Continue Do
             End Try
 
             ' Move down one cell and increment the counter by 1. 
@@ -121,13 +122,13 @@ Module SAPMain
         statisticsData("finished") = Now().ToLocalTime()
         statisticsData("finishedin") = pf.getResults()
 
+        ' Insert the statistics in the database. 
+        stats.writeStatistics(statisticsData)
+
         ' Check if there are any errors, and that the user want error mails. If not, don't do anything more with CErrorMails class. 
         If (errorCounter > 0 And My.Settings.ErrorMails = True) Then
             em.sendMail()
         End If
-
-        ' Insert the statistics in the database. 
-        stats.writeStatistics(statisticsData)
 
         ' Done with stats and scriptclass, throw away the objects (removing the pointers). 
         stats = Nothing

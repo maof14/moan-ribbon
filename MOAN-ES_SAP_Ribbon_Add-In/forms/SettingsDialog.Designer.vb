@@ -32,8 +32,8 @@ Partial Class SettingsDialog
         Me.txtDateFormat = New System.Windows.Forms.TextBox()
         Me.chbMailErrors = New System.Windows.Forms.CheckBox()
         Me.grpMails = New System.Windows.Forms.GroupBox()
-        Me.txtRecipients = New System.Windows.Forms.TextBox()
         Me.lblRecipients = New System.Windows.Forms.Label()
+        Me.txtRecipients = New System.Windows.Forms.TextBox()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.grpMails.SuspendLayout()
         Me.SuspendLayout()
@@ -132,26 +132,26 @@ Partial Class SettingsDialog
         Me.grpMails.Controls.Add(Me.chbMailErrors)
         Me.grpMails.Location = New System.Drawing.Point(15, 74)
         Me.grpMails.Name = "grpMails"
-        Me.grpMails.Size = New System.Drawing.Size(200, 100)
+        Me.grpMails.Size = New System.Drawing.Size(408, 100)
         Me.grpMails.TabIndex = 10
         Me.grpMails.TabStop = False
         Me.grpMails.Text = "Error mails"
         '
-        'txtRecipients
-        '
-        Me.txtRecipients.Location = New System.Drawing.Point(103, 43)
-        Me.txtRecipients.Name = "txtRecipients"
-        Me.txtRecipients.Size = New System.Drawing.Size(78, 20)
-        Me.txtRecipients.TabIndex = 10
-        '
         'lblRecipients
         '
         Me.lblRecipients.AutoSize = True
-        Me.lblRecipients.Location = New System.Drawing.Point(6, 46)
+        Me.lblRecipients.Location = New System.Drawing.Point(3, 39)
         Me.lblRecipients.Name = "lblRecipients"
         Me.lblRecipients.Size = New System.Drawing.Size(60, 13)
         Me.lblRecipients.TabIndex = 11
         Me.lblRecipients.Text = "Recipients:"
+        '
+        'txtRecipients
+        '
+        Me.txtRecipients.Location = New System.Drawing.Point(100, 36)
+        Me.txtRecipients.Name = "txtRecipients"
+        Me.txtRecipients.Size = New System.Drawing.Size(78, 20)
+        Me.txtRecipients.TabIndex = 10
         '
         'SettingsDialog
         '

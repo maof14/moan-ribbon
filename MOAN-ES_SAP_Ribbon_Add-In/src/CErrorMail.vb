@@ -2,6 +2,7 @@
 
 ''' <summary>
 ''' Class to generate and send mails with Outlook. 
+''' The class requires Outlook to be open. Else, no mail will be send and no error will be shown. 
 ''' </summary>
 ''' <remarks></remarks>
 Public Class CErrorMail

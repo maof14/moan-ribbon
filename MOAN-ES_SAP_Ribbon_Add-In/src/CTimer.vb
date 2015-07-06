@@ -1,6 +1,6 @@
 ﻿Option Explicit On
 
-Public Class CTimer : Implements IDisposable
+Public Class CTimer
 
     ' Class to encapsulate methods to handle the timer, responsible for keeping track of the progress left.
 
@@ -9,8 +9,6 @@ Public Class CTimer : Implements IDisposable
     Private stopTime As Double
     Private averageTimeToNow As Double
     Private elapsedTimePerObject As Double
-
-    Private disposedValue As Boolean ' To detect redundant calls
 
     ' Constructor function. 
     ' Return void. 
@@ -56,34 +54,5 @@ Public Class CTimer : Implements IDisposable
     Public Function getTotalTimeElapsedTimeInSeconds() As Integer
         Return (stopTime - startTime) * 86400
     End Function
-
-#Region "IDisposable Support"
-
-    ' IDisposable
-    Protected Overridable Sub Dispose(ByVal disposing As Boolean)
-        If Not Me.disposedValue Then
-            If disposing Then
-                ' Dispose managed state (managed objects).
-            End If
-
-        End If
-        Me.disposedValue = True
-    End Sub
-
-    ' TODO: override Finalize() only if Dispose(ByVal disposing As Boolean) above has code to free unmanaged resources.
-    Protected Overrides Sub Finalize()
-        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
-        Dispose(False)
-        MyBase.Finalize()
-    End Sub
-
-    ' This code added by Visual Basic to correctly implement the disposable pattern.
-    Public Sub Dispose() Implements IDisposable.Dispose
-        ' Do not change this code.  Put cleanup code in Dispose(ByVal disposing As Boolean) above.
-        Dispose(True)
-        GC.SuppressFinalize(Me)
-    End Sub
-
-#End Region
 
 End Class

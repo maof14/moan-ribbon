@@ -152,4 +152,12 @@ Module SAPConnection
         sapGuiAuto = Nothing
     End Sub
 
+    Public Sub resetTransaction(ByVal transaction As String)
+        If Not _session.findById("wnd[1]", False) Is Nothing Then
+            _session.findById("wnd[1]").Close()
+        End If
+        _session.FindById("wnd[0]/tbar[0]/okcd").Text = "/n" & transaction
+        _session.FindById("wnd[0]").sendVKey(0)
+    End Sub
+
 End Module
