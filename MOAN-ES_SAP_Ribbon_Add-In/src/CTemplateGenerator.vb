@@ -1,8 +1,10 @@
 ﻿Imports Microsoft.Office.Interop.Excel
 Imports System.Diagnostics
 
-' Class to generate the templates to be filled in by the user. In VS for easier handling an encapsulation from the user. 
-
+''' <summary>
+''' A wrapper class to create the templates for the scripts. 
+''' </summary>
+''' <remarks></remarks>
 Public Class CTemplateGenerator : Implements IDisposable
 
     Private xlApp As Excel.Application
@@ -12,13 +14,16 @@ Public Class CTemplateGenerator : Implements IDisposable
         Me.xlApp = Globals.ThisAddIn.Application
     End Sub
 
-    ' Function to generate the template in Excel. 
-    ' Todo: Have a save path somewhere in the project. 
-    ' Return void. 
-    Public Sub InitiateTemplate(ByVal scriptDict As Dictionary(Of String, String))
+    ''' <summary>
+    ''' Creates the template in Excel. 
+    ''' </summary>
+    ''' <param name="scriptDict">Information about the script from the script table in the database.</param>
+    ''' <remarks></remarks>
+    Public Sub initiateTemplate(ByVal scriptDict As Dictionary(Of String, String))
 
         Dim i As Integer
 
+        ' For when created save dir for reports. 
         '    If Dir(savePath, vbDirectory) = "" Then
         '        MkDir (savePath)
         '    End If
@@ -76,8 +81,6 @@ Public Class CTemplateGenerator : Implements IDisposable
                 .ThemeFont = XlThemeFont.xlThemeFontNone
             End With
 
-            ' Sväv start
-
             .Rows("2:3").Select()
             With .Selection.Interior
                 .Pattern = XlPattern.xlSolid
@@ -133,8 +136,6 @@ Public Class CTemplateGenerator : Implements IDisposable
                 .ThemeColor = XlThemeColor.xlThemeColorDark1
                 .TintAndShade = 0
             End With
-
-            ' Sväv slut
 
             .Rows("5:5").Select()
             With .Selection.Font
@@ -205,8 +206,6 @@ Public Class CTemplateGenerator : Implements IDisposable
             .Rows("1:1").RowHeight = 51
         End With
 
-        ' Second part - Create the custom headers from the database. 
-
         With xlApp
             For i = 6 To 7
                 .Cells(i, 2).Select()
@@ -244,12 +243,6 @@ Public Class CTemplateGenerator : Implements IDisposable
             .Selection.Copy()
 
             .Range("B6:B3000").PasteSpecial(XlPasteType.xlPasteFormats)
-
-            ' Prev scriptinfo (was ulgy)
-
-            '    If (Not IsMissing(transactionString)) Then
-            '        transaction = transactionString
-            '    End If
 
             .Rows("1:1").Select()
             With .Selection.Font
@@ -363,6 +356,7 @@ Public Class CTemplateGenerator : Implements IDisposable
             .CutCopyMode = False
             .ScreenUpdating = True
 
+            '  For when created save dir for reports. 
             ' .DisplayAlerts = False
             ' Save the WB for later review by the runner. Need to have save path somewhere. Settings?
             ' .SaveAs(savePath & script & "_" & Format(Now(), "yyyymmddHhNnSs"))

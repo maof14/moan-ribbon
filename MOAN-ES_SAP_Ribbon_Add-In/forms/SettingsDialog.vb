@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Data
 Imports System.Windows.Forms
 Imports Microsoft.VisualBasic.FileIO
 
@@ -22,12 +23,13 @@ Public Class SettingsDialog
             MsgBox("Oops. Looks like you want error mails, but have not specified one or more recipients.", vbInformation, "Error in mail settings")
             Exit Sub
         Else
-            My.Settings.ErrorRecipients = txtRecipients.Text
-            My.Settings.ErrorMails = chbMailErrors.Checked
+            My.Settings.ErrorRecipients = Me.txtRecipients.Text
+            My.Settings.ErrorMails = Me.chbMailErrors.Checked
+            ' Prompt to advice restart of Excel upon changing the license key? 
+            My.Settings.LicenseKey = Me.txtLicenseKey.Text
         End If
-        
-        My.Settings.Save()
 
+        My.Settings.Save()
         Me.Close()
     End Sub
 
@@ -67,6 +69,7 @@ Public Class SettingsDialog
         Me.txtDateFormat.Text = My.Settings.DateFormat
         Me.chbMailErrors.Checked = My.Settings.ErrorMails
         Me.txtRecipients.Text = My.Settings.ErrorRecipients
+        Me.txtLicenseKey.Text = My.Settings.LicenseKey
 
     End Sub
 
@@ -76,5 +79,35 @@ Public Class SettingsDialog
         Else
             txtRecipients.Enabled = False
         End If
+    End Sub
+
+    ''' <summary>
+    ''' Button to check the validity of the license key. Use MySQL database class to fetch the information. 
+    ''' </summary>
+    ''' <param name="sender">The sender of the event.</param>
+    ''' <param name="e">Event args.</param>
+    ''' <remarks></remarks>
+    Private Sub btnCheckLicense_Click(sender As System.Object, e As System.EventArgs) Handles btnCheckLicense.Click
+        Dim db As New CMySQLDatabase
+        Dim res As DataTable
+        Dim licenceKey As String = txtLicenseKey.Text
+        res = db.getDataTable("SELECT companyid, companyname, validto FROM licenses WHERE licensekey = '" & licenceKey & "'")
+
+        Dim companyid As String = ""
+        Dim companyname As String = ""
+        Dim validto As String = ""
+
+        If res.Rows.Count > 0 Then
+            For Each r In res.Rows
+                companyid = r("companyid")
+                companyname = r("companyname")
+                validto = r("validto")
+            Next
+            MsgBox("Your licence key for " & companyname & ", customer id " & companyid & ", expires " & validto & ". If you have just updated the license, please restart Excel or reload the Add-in for the changes to take effect.", vbInformation, "Valid license!")
+        Else
+            MsgBox("This license key is invalid. The SAP Scripting is disabled.", vbInformation, "License invalid!")
+        End If
+
+        db = Nothing
     End Sub
 End Class

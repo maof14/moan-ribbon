@@ -1,5 +1,9 @@
 ﻿Option Explicit On
 
+''' <summary>
+''' A module for establishing the connection with SAP. The property "session" is used from SAPMain. 
+''' </summary>
+''' <remarks></remarks>
 Module SAPConnection
 
     ' Static methods to to establish connection to SAP.
@@ -12,9 +16,12 @@ Module SAPConnection
     Private createdSession As Boolean
     Const MAX_SESSIONS As Integer = 6
 
-    ' session Property, to ensure encapsulation of _session. 
-    ' Return GuiSession _session as Object. 
-    ' Private set GuiSession _session as Object. 
+    ''' <summary>
+    ''' Encapsulate the _session variable, that is really a GuiSession object. 
+    ''' </summary>
+    ''' <value>The member _session.</value>
+    ''' <returns>Private member _session.</returns>
+    ''' <remarks></remarks>
     Public Property session() As Object
         Get
             Return _session
@@ -24,11 +31,12 @@ Module SAPConnection
         End Set
     End Property
 
-    ' Function to take over a transaction from SAP. Basically the same as generated from SAP, but simplified and renamed due to duplicate naming with Excel pre-existing objects.
-    ' This function should be used when script is intended to run in the session first found by the program.
-    ' Param transaction - the transaction to execute updates in.
-    ' Return void.
-    Public Sub InitWithTransaction(ByVal transaction As String)
+    ''' <summary>
+    ''' This function takes over a existing session from SAP. Basically the same as generated from SAP apart from some variable renaming. 
+    ''' </summary>
+    ''' <param name="transaction">The transaction to be entered before starting the object update loop.</param>
+    ''' <remarks></remarks>
+    Public Sub initWithTransaction(ByVal transaction As String)
         createdSession = False
 
         ' Reset any open connections before starting.
@@ -57,11 +65,12 @@ Module SAPConnection
         _session.FindById("wnd[0]").sendVKey(0)
     End Sub
 
-    ' Function to initialize a connection to SAP in a new GuiSession.
-    ' This initialized should be used in most cases not to overwrite the users other transactions.
-    ' Param transaction - the transaction to execute updates in.
-    ' Return void.
-    Public Sub InitWithNewSessionAndTransaction(ByVal transaction As String)
+    ''' <summary>
+    ''' This function creates a new GuiSession and takes over it, allowing the user to keep on working in SAP. Basically the same as generated from SAP apart from some variable renaming. 
+    ''' </summary>
+    ''' <param name="transaction">The transaction to be entered before starting the object update loop.</param>
+    ''' <remarks></remarks>
+    Public Sub initWithNewSessionAndTransaction(ByVal transaction As String)
         createdSession = False
 
         ' Reset any open connections before starting.
@@ -132,9 +141,11 @@ Module SAPConnection
 
     End Sub
 
-    ' Function to close the connection with SAP.
-    ' Return void.
-    Public Sub CloseConnection()
+    ''' <summary>
+    ''' If a session is created, close that window and null the objects. 
+    ''' </summary>
+    ''' <remarks>Does not really close the connection with SAP. This module needs to be nulled too?</remarks>
+    Public Sub closeConnection()
         If createdSession = True Then
             _session.FindById("wnd[0]").Close()
         End If
@@ -145,13 +156,20 @@ Module SAPConnection
         sapGuiAuto = Nothing
     End Sub
 
-    ' Function to reset the connection with SAP, simpler form of closeConnection()
-    ' Return void. 
+    ''' <summary>
+    ''' Reset the connection to SAP. 
+    ''' </summary>
+    ''' <remarks></remarks>
     Private Sub resetSession()
         _session = Nothing
         sapGuiAuto = Nothing
     End Sub
 
+    ''' <summary>
+    ''' Reset the transaction if the script does not work. Close a window and enter the transaction again. 
+    ''' </summary>
+    ''' <param name="transaction">The transaction to be re-entered.</param>
+    ''' <remarks></remarks>
     Public Sub resetTransaction(ByVal transaction As String)
         If Not _session.findById("wnd[1]", False) Is Nothing Then
             _session.findById("wnd[1]").Close()

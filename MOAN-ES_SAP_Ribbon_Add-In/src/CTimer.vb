@@ -1,8 +1,10 @@
 ﻿Option Explicit On
 
+''' <summary>
+''' A class that handles timer functionality when executing the scripts. 
+''' </summary>
+''' <remarks></remarks>
 Public Class CTimer
-
-    ' Class to encapsulate methods to handle the timer, responsible for keeping track of the progress left.
 
     Private timeAtLastProcessedObject As Double
     Private startTime As Double
@@ -10,19 +12,28 @@ Public Class CTimer
     Private averageTimeToNow As Double
     Private elapsedTimePerObject As Double
 
-    ' Constructor function. 
-    ' Return void. 
+    ''' <summary>
+    ''' Default constructor. Does nothing at the moment. 
+    ''' </summary>
+    ''' <remarks>Not doing anything.</remarks>
     Public Sub New()
 
     End Sub
 
+    ''' <summary>
+    ''' Starts the timer, before starting to execute the scripts. 
+    ''' </summary>
+    ''' <remarks></remarks>
     Public Sub start()
         Me.startTime = Now.ToOADate()
     End Sub
 
-    ' Function to recalculate the time left of the macro.
-    ' Param Integer objectsCountValue, the 
-    ' Return void.
+    ''' <summary>
+    ''' Recalculates the timer after eached updated object. 
+    ''' </summary>
+    ''' <param name="currentObject">The number of objects updated until now.</param>
+    ''' <param name="objectsLeft">The total amount of objects to update.</param>
+    ''' <remarks>Should be handled by event instead?</remarks>
     Public Sub reCalculate(ByVal currentObject As Integer, ByVal objectsLeft As Integer)
         timeAtLastProcessedObject = Now.ToOADate()
         If Not objectsLeft = 0 Then
@@ -31,26 +42,39 @@ Public Class CTimer
         End If
     End Sub
 
-    ' Function to return the time remaining, based on the activecell.
-    ' Return integer objects left to process.
-    Public Function getTimeLeftMinutes(ByVal objectsLeft As Integer)
+    ''' <summary>
+    ''' Return the calculated remaining time, based on the average time it took per object until now. 
+    ''' </summary>
+    ''' <param name="objectsLeft">The amount of objects left to update.</param>
+    ''' <returns>The number of minutes left until the program is done.</returns>
+    ''' <remarks>Added a return type here, without testing.</remarks>
+    Public Function getTimeLeftMinutes(ByVal objectsLeft As Integer) As Double
         Return Math.Round(((elapsedTimePerObject * 1400) * objectsLeft), 2)
     End Function
 
-    ' Function to get the remaining time in seconds.
-    ' Return double, remaining time of processing.
-    Public Function getTimeLeftSeconds(ByVal objectsLeft As Integer)
+    ''' <summary>
+    ''' Return the calculated remaining time in seconds. To be used together with the minutes, becase this method excludes them.
+    ''' </summary>
+    ''' <param name="objectsLeft">The amount of objects left to update.</param>
+    ''' <returns>The number of seconds left, minutes excluded.</returns>
+    ''' <remarks>Added a return type here, without testing.</remarks>
+    Public Function getTimeLeftSeconds(ByVal objectsLeft As Integer) As Integer
         Return Math.Round(((averageTimeToNow * 86400) * objectsLeft) Mod 60, 0)
     End Function
 
-    ' Function to stop the timer. Should be called when the loop is done.
-    ' Return void.
+    ''' <summary>
+    ''' Stops the timer. To be called after the main loop. 
+    ''' </summary>
+    ''' <remarks></remarks>
     Public Sub stopTimer()
         stopTime = Now.ToOADate()
     End Sub
 
-    ' Function to return the total elapsed time in seconds.
-    ' Return double total time of excecution.
+    ''' <summary>
+    ''' Return the total elapsed time of executing the scripts. To be used when reporting statistics. 
+    ''' </summary>
+    ''' <returns>The total amount of time elapsed.</returns>
+    ''' <remarks></remarks>
     Public Function getTotalTimeElapsedTimeInSeconds() As Integer
         Return (stopTime - startTime) * 86400
     End Function

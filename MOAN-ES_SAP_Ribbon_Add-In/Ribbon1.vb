@@ -13,11 +13,47 @@ Public Class Ribbon1
     ' Event function for when the Ribbon loads. 
     ' Set the xlApp variable in this class. 
     ' Return void. 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    ''' <remarks></remarks>
     Private Sub Ribbon1_Load(ByVal sender As System.Object, ByVal e As RibbonUIEventArgs) Handles MyBase.Load
 
         xlApp = Globals.ThisAddIn.Application
         Debug.Print("Ribbon loaded successfully.")
         Me.grpVersion.Label = "Version " & My.Application.Info.Version.ToString()
+
+        ' Init MySQL Database class. 
+        Dim db As New CMySQLDatabase()
+
+        ' Encapsulate this in the MySQL class??? 
+
+        ' Get the license key from settings. 
+        Dim lk As String = My.Settings.LicenseKey
+
+        ' Create datatable of query. 
+        Dim res As DataTable = db.getDataTable("SELECT COUNT(*) AS c FROM licenses WHERE licensekey = '" & lk & "' AND validto >= NOW()")
+
+        ' Get the valid date. 
+        Dim licenseAvailable As Boolean
+        For Each r In res.Rows
+            licenseAvailable = CBool(r("c"))
+        Next
+
+        ' Disable all in grpAutomation (SAP Scripts), if license key is invalid or not found in the database. 
+        If Not (licenseAvailable) Then
+            For Each c In Me.grpSAPAutomation.Items
+                c.Enabled = False
+            Next
+        End If
+
+        '' Disable all in grpTools (Reduntant? Lame to block this functionality is license is expired.)
+
+        '' Disable all in grpStatistics (Redundant. Data is still available if licence expired.)
+
+        '' Disable all in grpVersion (Redundant. Must be able to set a / the license key.)
 
     End Sub
 
@@ -55,7 +91,7 @@ Public Class Ribbon1
                                                                                                                                         Button30.Click
         Dim scriptName As String = sender.Label
 
-        Dim db As CDatabase = New CDatabase()
+        Dim db As CSQLiteDatabase = New CSQLiteDatabase()
         Dim res As DataTable = db.getDataTable("SELECT * FROM scripts WHERE name = '" & scriptName & "'")
 
         scriptData = New Dictionary(Of String, String)

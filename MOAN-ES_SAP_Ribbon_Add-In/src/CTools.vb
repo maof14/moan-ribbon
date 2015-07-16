@@ -1,15 +1,25 @@
-﻿Public Class CTools
+﻿''' <summary>
+''' A wrapper class to encapsulate the tools under the Tools section in the Ribbon. 
+''' </summary>
+''' <remarks></remarks>
+Public Class CTools
 
-    ' Class to encapsulate a few tools that is called from the Ribbon. 
-
-    ' Function to convert a value to string in Excel. That is, prepending a apostrophe. 
-    ' Return String value appended by a apostrophe. 
+    ''' <summary>
+    ''' "Convert" a value to string - appending a apostrophe to the value. 
+    ''' </summary>
+    ''' <param name="value">The value to be converted.</param>
+    ''' <returns>The value appended by a apostrophe.</returns>
+    ''' <remarks></remarks>
     Public Function convertToString(ByVal value) As String
         Return "'" & value
     End Function
 
-    ' Function to get the current date in the format specified in the settings. 
-    ' Return String the current date. 
+    ''' <summary>
+    ''' Return the current date in the specified format. 
+    ''' </summary>
+    ''' <param name="dateFormat">The desired format.</param>
+    ''' <returns>The current date in selected format.</returns>
+    ''' <remarks></remarks>
     Public Function getDate(ByVal dateFormat As String) As String
         dateFormat = dateFormat.Replace("Y", "y").Replace("D", "d")
         Return Format(Now(), dateFormat)

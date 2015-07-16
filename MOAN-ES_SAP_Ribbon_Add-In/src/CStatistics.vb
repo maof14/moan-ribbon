@@ -3,31 +3,37 @@
 Imports System.Data
 Imports System.ComponentModel
 
-' Class to encapsulate the handling of the writing and reading of the statistics database.
-' Created by MOAN Enterprise 2015-06-27. 
-
+''' <summary>
+''' Class to handle the statistics in the database. 
+''' </summary>
+''' <remarks></remarks>
 Public Class CStatistics
 
-    Private db As CDatabase
+    Private db As CSQLiteDatabase
 
     ''' <summary>
-    ''' Constructor for class CStatistics. Initializes the CDatabase member. 
+    ''' Default constructor. Initializes the database class. 
     ''' </summary>
     ''' <remarks></remarks>
     Public Sub New()
-        Me.db = New CDatabase()
+        Me.db = New CSQLiteDatabase()
     End Sub
 
-    ' Function to write the statistics to the database.
-    ' This method should be run after all SAP execution is complete in SAPMacro.
-    ' Return Boolean success from CDatabase.
+    ''' <summary>
+    ''' Write statistics to the database. 
+    ''' </summary>
+    ''' <param name="scriptData">The data to write to the database.</param>
+    ''' <returns>Boolean indicating success.</returns>
+    ''' <remarks></remarks>
     Public Function writeStatistics(ByVal scriptData As Dictionary(Of String, String)) As Boolean
         Return Me.db.insert("statistics", scriptData)
     End Function
 
-    ' Function to get the statistics data for display from the database. 
-    ' Should there be a function to have this to display Pivot table too? How to reference the Pivot in creation, and choose layout?
-    ' Return String array of the database statistics results. 
+    ''' <summary>
+    ''' Get the statistics data from the database.
+    ''' </summary>
+    ''' <returns>The statistics as an array.</returns>
+    ''' <remarks>Should be able to present as Pivot, too?</remarks>
     Public Function getStatistics() As String(,)
         Dim res As DataTable = Me.db.getDataTable("SELECT * FROM statistics")
         Dim count As Integer

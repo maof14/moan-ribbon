@@ -1,14 +1,17 @@
 ﻿Option Explicit On
 
-Imports System.Diagnostics
+''' <summary>
+''' A class to contain all of the scripts executing things in SAP. The methods in this class is called dynamically from the SAPMain module with function CallByName. 
+''' </summary>
+''' <remarks>This class should contain ALL scripts for all customers, while each Ribbon presents different scripts. Good idea?</remarks>
+Partial Public Class CSAPScripts
 
-Public Class CSAPScripts
-    ' Class to contain all the SAP Scripts. The Ribbon currently have support to hold 30 different scripts. 
-    ' The scripts here are called dynamically from the SAPMainScript function with the CallByName function. 
-    ' Created by MOAN Enterprise 2015-06-25. Updated 2015-06-28. 
-
-    ' Debug function example. Alter the contents here to a script that you want to debug. The actual scripts need to have the session as a variable. That is not needed here.
-    ' Return String SAP Statusbar message (empty in this case). 
+    ''' <summary>
+    ''' Enter a network, and get out. 
+    ''' </summary>
+    ''' <param name="args">The parameters from Excel, as array.</param>
+    ''' <returns>The message from SAP Status bar on success.</returns>
+    ''' <remarks>Demo function.</remarks>
     Public Function EnterNetworkScript(ByVal args(,) As Object) As String
 
         ' Dimensions. 
@@ -50,9 +53,13 @@ Public Class CSAPScripts
 
     End Function
 
-    ' Function to update the Invoice date in an invoice. 
-    ' Return String the text in the SAP Statusbar. 
-    Public Function UpdateNetworkHeaderDateScript(ByVal args(,) As Object) As String
+    ''' <summary>
+    ''' Update the Billing header date on Billing documents. 
+    ''' </summary>
+    ''' <param name="args">The parameters from Excel, as array.</param>
+    ''' <returns>The message in SAP Status bar.</returns>
+    ''' <remarks></remarks>
+    Public Function UpdateBillingHeaderDateScript(ByVal args(,) As Object) As String
 
         ' Dimensions. 
         Dim var1, var2 As String
@@ -84,6 +91,12 @@ Public Class CSAPScripts
 
     End Function
 
+    ''' <summary>
+    ''' Update the Sales order System status per Sales order item. 
+    ''' </summary>
+    ''' <param name="args">The parameters from Excel, as array.</param>
+    ''' <returns>The message in SAP Status bar.</returns>
+    ''' <remarks>Sufficient error handling?</remarks>
     Public Function UpdateSalesOrderSystemStatusScript(ByVal args(,) As Object) As String
 
         Dim var1, var2 As String

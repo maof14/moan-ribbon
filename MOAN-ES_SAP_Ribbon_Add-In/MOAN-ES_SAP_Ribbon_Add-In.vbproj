@@ -35,7 +35,7 @@
     <PublishUrl>C:\Users\Mattias\Dropbox\MOAN-ES\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.67</ApplicationVersion>
+    <ApplicationVersion>1.0.0.68</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -171,6 +171,9 @@
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="MySql.Data, Version=6.9.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.SQLite, Version=1.0.97.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
@@ -238,7 +241,8 @@
     <Compile Include="forms\ProcessForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="src\CDatabase.vb" />
+    <Compile Include="src\CMySQLDatabase.vb" />
+    <Compile Include="src\CSQLiteDatabase.vb" />
     <Compile Include="src\CErrorMail.vb" />
     <Compile Include="src\CSAPScripts.vb" />
     <Compile Include="src\CStatistics.vb" />
@@ -251,6 +255,7 @@
     <Compile Include="forms\SettingsDialog.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="src\IDatabase.vb" />
     <Compile Include="src\MoanConstants.vb" />
     <Compile Include="src\SAPMain.vb" />
     <Compile Include="Ribbon1.Designer.vb">

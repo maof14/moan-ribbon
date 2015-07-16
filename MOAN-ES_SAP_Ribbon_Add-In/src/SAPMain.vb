@@ -5,8 +5,12 @@ Imports System.Windows.Forms
 Imports System.Threading
 Imports System.ComponentModel
 
+''' <summary>
+''' A module that contains the main loop of the program. 
+''' </summary>
+''' <remarks></remarks>
 Module SAPMain
-    ' Created by Mattias Olsson XB (qolsmat) 2014-04-08. Updated by 2015-06-02. Trying with VB.Net 2015-06-22
+    ' Created by MOAN Enterprise. (qolsmat) 2014-04-08. Updated by 2015-06-02. Trying with VB.Net 2015-06-22
 
     ' Members. 
     Private xlApp As Excel.Application
@@ -19,7 +23,7 @@ Module SAPMain
     ''' </summary>
     ''' <value>Boolean</value>
     ''' <returns>Boolean member _doWork</returns>
-    ''' <remarks>tjena</remarks>
+    ''' <remarks></remarks>
     Public Property DoWork() As Boolean
         Get
             Return _doWork

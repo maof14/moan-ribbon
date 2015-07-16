@@ -34,6 +34,9 @@ Partial Class SettingsDialog
         Me.grpMails = New System.Windows.Forms.GroupBox()
         Me.lblRecipients = New System.Windows.Forms.Label()
         Me.txtRecipients = New System.Windows.Forms.TextBox()
+        Me.lblLicenseKey = New System.Windows.Forms.Label()
+        Me.txtLicenseKey = New System.Windows.Forms.TextBox()
+        Me.btnCheckLicense = New System.Windows.Forms.Button()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.grpMails.SuspendLayout()
         Me.SuspendLayout()
@@ -77,7 +80,7 @@ Partial Class SettingsDialog
         Me.txtDbPath.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtDbPath.Location = New System.Drawing.Point(118, 6)
         Me.txtDbPath.Name = "txtDbPath"
-        Me.txtDbPath.Size = New System.Drawing.Size(229, 20)
+        Me.txtDbPath.Size = New System.Drawing.Size(200, 20)
         Me.txtDbPath.TabIndex = 1
         '
         'lblScriptContainerFilePath
@@ -91,9 +94,9 @@ Partial Class SettingsDialog
         '
         'btnBrowseDb
         '
-        Me.btnBrowseDb.Location = New System.Drawing.Point(353, 4)
+        Me.btnBrowseDb.Location = New System.Drawing.Point(324, 4)
         Me.btnBrowseDb.Name = "btnBrowseDb"
-        Me.btnBrowseDb.Size = New System.Drawing.Size(70, 23)
+        Me.btnBrowseDb.Size = New System.Drawing.Size(99, 23)
         Me.btnBrowseDb.TabIndex = 5
         Me.btnBrowseDb.Text = "Browse..."
         Me.btnBrowseDb.UseVisualStyleBackColor = True
@@ -140,7 +143,7 @@ Partial Class SettingsDialog
         'lblRecipients
         '
         Me.lblRecipients.AutoSize = True
-        Me.lblRecipients.Location = New System.Drawing.Point(3, 39)
+        Me.lblRecipients.Location = New System.Drawing.Point(3, 48)
         Me.lblRecipients.Name = "lblRecipients"
         Me.lblRecipients.Size = New System.Drawing.Size(60, 13)
         Me.lblRecipients.TabIndex = 11
@@ -148,10 +151,37 @@ Partial Class SettingsDialog
         '
         'txtRecipients
         '
-        Me.txtRecipients.Location = New System.Drawing.Point(100, 36)
+        Me.txtRecipients.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtRecipients.Location = New System.Drawing.Point(100, 45)
         Me.txtRecipients.Name = "txtRecipients"
         Me.txtRecipients.Size = New System.Drawing.Size(78, 20)
         Me.txtRecipients.TabIndex = 10
+        '
+        'lblLicenseKey
+        '
+        Me.lblLicenseKey.AutoSize = True
+        Me.lblLicenseKey.Location = New System.Drawing.Point(15, 181)
+        Me.lblLicenseKey.Name = "lblLicenseKey"
+        Me.lblLicenseKey.Size = New System.Drawing.Size(68, 13)
+        Me.lblLicenseKey.TabIndex = 11
+        Me.lblLicenseKey.Text = "Licence key:"
+        '
+        'txtLicenseKey
+        '
+        Me.txtLicenseKey.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtLicenseKey.Location = New System.Drawing.Point(115, 179)
+        Me.txtLicenseKey.Name = "txtLicenseKey"
+        Me.txtLicenseKey.Size = New System.Drawing.Size(203, 20)
+        Me.txtLicenseKey.TabIndex = 12
+        '
+        'btnCheckLicense
+        '
+        Me.btnCheckLicense.Location = New System.Drawing.Point(324, 179)
+        Me.btnCheckLicense.Name = "btnCheckLicense"
+        Me.btnCheckLicense.Size = New System.Drawing.Size(96, 23)
+        Me.btnCheckLicense.TabIndex = 13
+        Me.btnCheckLicense.Text = "Check validity"
+        Me.btnCheckLicense.UseVisualStyleBackColor = True
         '
         'SettingsDialog
         '
@@ -160,6 +190,9 @@ Partial Class SettingsDialog
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CancelButton = Me.Cancel_Button
         Me.ClientSize = New System.Drawing.Size(435, 315)
+        Me.Controls.Add(Me.btnCheckLicense)
+        Me.Controls.Add(Me.txtLicenseKey)
+        Me.Controls.Add(Me.lblLicenseKey)
         Me.Controls.Add(Me.grpMails)
         Me.Controls.Add(Me.txtDateFormat)
         Me.Controls.Add(Me.lblDateFormat)
@@ -193,5 +226,8 @@ Partial Class SettingsDialog
     Friend WithEvents grpMails As System.Windows.Forms.GroupBox
     Friend WithEvents txtRecipients As System.Windows.Forms.TextBox
     Friend WithEvents lblRecipients As System.Windows.Forms.Label
+    Friend WithEvents lblLicenseKey As System.Windows.Forms.Label
+    Friend WithEvents txtLicenseKey As System.Windows.Forms.TextBox
+    Friend WithEvents btnCheckLicense As System.Windows.Forms.Button
 
 End Class

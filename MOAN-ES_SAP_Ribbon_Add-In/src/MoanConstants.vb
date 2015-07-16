@@ -1,5 +1,8 @@
-﻿Module MoanConstants
-    'Copy and Paste all these Enumerations into a single Standard Module in Access
+﻿''' <summary>
+''' A module to contain all the Excel constants. For use mostly in the CTemplateGenerator class. 
+''' </summary>
+''' <remarks></remarks>
+Module MoanConstants
 
     Public Enum UnclassifiedConstants
         xl3DBar = -4099

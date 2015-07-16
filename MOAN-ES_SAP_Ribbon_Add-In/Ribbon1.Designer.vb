@@ -27,7 +27,7 @@ Partial Class Ribbon1
         ' Init the available scripts in the Ribbon... Perhaps this should be somewhere else, with Menu1.Dynamic = True, if possible. 
         ' Fetch the available scripts from the db located at dbPath. Should be located on network drive. 
 
-        Dim db As CDatabase = New CDatabase()
+        Dim db As CSQLiteDatabase = New CSQLiteDatabase()
         Dim res As DataTable = db.getDataTable("SELECT * FROM scripts ORDER BY category ASC")
 
         Dim i As Integer = 0
