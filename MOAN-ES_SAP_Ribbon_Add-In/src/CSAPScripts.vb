@@ -196,4 +196,23 @@ ContinueNextItem:
 
     End Function
 
+    Public Function checkTable(ByVal args(,) As Object) As String
+        Dim var1, var2 As String
+
+        var1 = args(1, 1)
+        var2 = args(1, 2)
+
+        Dim s As String = ""
+
+        session.findById("wnd[0]/usr/ctxtRSRD1-TBMA_VAL").Text = var1
+        session.findById("wnd[0]").sendVKey(0)
+        session.findById("wnd[0]/usr/btnPUSHSHOW").press()
+        s = session.findById("wnd[0]/usr/tabsTAB_STRIP/tabpDEF/ssubTS_SCREEN:SAPLSD41:2201/tblSAPLSD41TC0/txtDD03P-DDTEXT[7,0]").Text
+        'session.findById("wnd[0]/usr/tabsTAB_STRIP/tabpDEF/ssubTS_SCREEN:SAPLSD41:2201/tblSAPLSD41TC0/txtDD03P-DDTEXT[7,0]").caretPosition = 0
+        session.findById("wnd[0]/tbar[0]/btn[3]").press()
+
+        Return s
+
+    End Function
+
 End Class

@@ -96,6 +96,7 @@ Module SAPMain
             ' Execute the script.
             Try
                 If DoWork = True Then
+                    ' Must have the object to update, and one parameter to. (That is, at least two columns to fill in, and another for SAP Output.) 
                     xlApp.Cells(xlApp.ActiveCell.Row, xlApp.ActiveCell.End(Excel.XlDirection.xlToRight).Column + 1).Value2 = CallByName(ss, scriptid, CallType.Method, args)
                 Else
                     Exit Do
